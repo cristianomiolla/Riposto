@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riposto - Gestione Rifiuti Sostenibile</title>
+    <meta name="description" content="Riposto: soluzioni innovative per la gestione dei rifiuti e la sostenibilità ambientale. Scopri i nostri servizi.">
+    <meta name="keywords" content="rifiuti, riciclo, ecologia, sostenibilità, ambiente, servizi ecologici">
+
+    <!-- Stili CSS Globali -->
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+            background-color: #f4f4f4;
+            /* RIMOSSO: Il padding-top fisso viene ora gestito da JavaScript */
+        }
+        main h1, main h2, main h3 { color: #4CAF50; }
+    </style>
+</head>
+<body>
+
+    <!-- ======================= Sezione Header con CSS della Navbar ======================= -->
+    <header>
+        <!-- Stili CSS specifici per la Navbar e il Dropdown -->
+        <style>
+            header {
+                background-color: #2F4F4F;
+                border-bottom: 3px solid #4CAF50;
+                position: fixed;
+                width: 100%;
+                top: 0;
+                z-index: 1000;
+            }
+
+            .navbar {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 1rem 1.5rem;
+                gap: 1.5rem;
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+
+            .nav-logo {
+                font-size: 2rem;
+                font-weight: bold;
+                color: #fff;
+                text-decoration: none;
+            }
+
+            .nav-menu {
+                display: flex;
+                align-items: center;
+                list-style: none;
+                gap: 3.5rem;
+            }
+
+            .nav-item { position: relative; }
+            
+            .has-dropdown { padding-bottom: 10px; margin-bottom: -10px; }
+            .nav-link { color: #fff; text-decoration: none; font-size: 1.1rem; font-weight: 500; transition: color 0.3s ease-in-out; display: flex; align-items: center; gap: 0.4rem; }
+            .nav-link:hover { color: #66BB6A; }
+            .nav-link:hover .icon-chevron { border-color: #66BB6A; }
+            .icon-chevron { border: solid #fff; border-width: 0 2px 2px 0; display: inline-block; padding: 3px; transform: rotate(45deg); transition: transform 0.3s ease, border-color 0.3s ease-in-out; }
+            .dropdown-menu { display: none; position: absolute; top: 100%; left: 0; background-color: #2F4F4F; list-style: none; padding: 0.5rem 0; min-width: 220px; border-radius: 5px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+            .dropdown-menu .nav-item { width: 100%; padding-bottom: 0; margin-bottom: 0; }
+            .dropdown-menu .nav-link { padding: 0.75rem 1.5rem; display: block; width: 100%; text-align: left; }
+            .nav-item:hover .dropdown-menu { display: block; }
+            .hamburger { display: none; cursor: pointer; }
+            .bar { display: block; width: 25px; height: 3px; margin: 5px auto; transition: all 0.3s ease-in-out; background-color: white; }
+
+            /* Stili responsive */
+            @media(max-width: 768px) {
+                .navbar { flex-direction: row; justify-content: space-between; padding: 1rem 1.5rem; gap: 1rem; }
+                .nav-logo { font-size: 1.5rem; }
+                .nav-menu { gap: 0; }
+                .has-dropdown { padding-bottom: 0; margin-bottom: 0; }
+                .nav-item:hover .dropdown-menu { display: none; }
+                .has-dropdown.open .dropdown-menu { display: block; }
+                .has-dropdown.open .icon-chevron { transform: rotate(-135deg); }
+                .hamburger { display: block; }
+                .hamburger.active .bar:nth-child(2) { opacity: 0; }
+                .hamburger.active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+                .hamburger.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+                .nav-menu { position: fixed; left: -100%; top: 68px; flex-direction: column; background-color: #2F4F4F; width: 100%; text-align: center; transition: left 0.3s ease; padding-bottom: 1rem; }
+                .nav-item { margin: 16px 0; }
+                .nav-menu.active { left: 0; }
+                .dropdown-menu { position: static; background-color: #3f6f6f; padding-left: 2rem; min-width: auto; box-shadow: none; border-radius: 0; }
+            }
+        </style>
+
+        <nav class="navbar">
+            <a href="index.html" class="nav-logo">Riposto</a>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#home" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item has-dropdown">
+                    <a href="#servizio" class="nav-link">Servizio <i class="icon-chevron"></i></a>
+                    <ul class="dropdown-menu">
+                        <li class="nav-item"><a href="#modalita-servizio" class="nav-link">Modalità del servizio</a></li>
+                        <li class="nav-item"><a href="#guida-servizio" class="nav-link">Guida al servizio</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><a href="#statistiche" class="nav-link">Statistiche</a></li>
+                <li class="nav-item"><a href="#contattaci" class="nav-link">Contattaci</a></li>
+                <li class="nav-item"><a href="#news" class="nav-link">News</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+            </div>
+        </nav>
+
+        <script>
+            const hamburger = document.querySelector(".hamburger"),navMenu = document.querySelector(".nav-menu"),dropdown = document.querySelector(".has-dropdown"),dropdownLink = dropdown.querySelector(".nav-link");hamburger.addEventListener("click",()=>{hamburger.classList.toggle("active"),navMenu.classList.toggle("active"),navMenu.classList.contains("active")||dropdown.classList.remove("open")}),dropdownLink.addEventListener("click",e=>{window.innerWidth<=768&&(e.preventDefault(),dropdown.classList.toggle("open"))}),document.querySelectorAll(".nav-link:not(.has-dropdown > .nav-link)").forEach(e=>{e.addEventListener("click",()=>{hamburger.classList.remove("active"),navMenu.classList.remove("active"),dropdown.classList.remove("open")})}),document.querySelectorAll(".dropdown-menu .nav-link").forEach(e=>{e.addEventListener("click",()=>{hamburger.classList.remove("active"),navMenu.classList.remove("active"),dropdown.classList.remove("open")})});
+        </script>
+
+            <!-- NUOVO SCRIPT per la gestione dinamica dello spazio della navbar -->
+    <script>
+        function setContentPadding() {
+            const header = document.querySelector('header');
+            const mainContent = document.querySelector('main');
+            if (header && mainContent) {
+                const headerHeight = header.offsetHeight;
+                document.body.style.paddingTop = `${headerHeight}px`;
+            }
+        }
+        // Imposta il padding al caricamento della pagina
+        window.addEventListener('DOMContentLoaded', setContentPadding);
+        // Ricalcola il padding se la finestra viene ridimensionata
+        window.addEventListener('resize', setContentPadding);
+    </script>
+    </header>
+
+    <!-- ======================= Contenuto della pagina ======================= -->
+    <main class="page-content">
+        <section id="hero-carousel-section">
+            <style>
+                #hero-carousel-section { max-width: 100%; margin: 0 auto; position: relative; }
+                .carousel-container {
+                    overflow-x: scroll; position: relative; height: 65vh; display: flex;
+                    scroll-snap-type: x mandatory; scroll-behavior: smooth;
+                    scrollbar-width: none; -ms-overflow-style: none;
+                }
+                .carousel-container::-webkit-scrollbar { display: none; }
+                .carousel-slide { flex: 0 0 100%; width: 100%; height: 100%; position: relative; scroll-snap-align: center; }
+                .carousel-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
+                .carousel-slide::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.6), transparent); }
+                .carousel-caption { position: absolute; bottom: 10%; left: 5%; right: 5%; color: white; text-align: center; z-index: 2; text-shadow: 2px 2px 4px rgba(0,0,0,0.7); }
+                .carousel-caption h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); margin: 0; color: white; }
+                .carousel-caption p { font-size: clamp(1rem, 2vw, 1.2rem); }
+                
+                .carousel-button {
+                    position: absolute;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    background: rgba(0,0,0,0.5);
+                    border: none;
+                    color: white;
+                    width: 44px;
+                    height: 44px;
+                    cursor: pointer;
+                    border-radius: 50%;
+                    z-index: 3;
+                    transition: background-color 0.3s;
+                    font-size: 1.5rem;
+                    
+                    /* MODIFICA: Assicura la perfetta centratura delle frecce */
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    padding: 0;
+                    line-height: 1;
+                }
+
+                .carousel-button:hover { background: #4CAF50; }
+                .carousel-button.prev { left: 15px; }
+                .carousel-button.next { right: 15px; }
+                .carousel-nav { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; z-index: 3; }
+                .carousel-dot { width: 12px; height: 12px; border-radius: 50%; background: rgba(255,255,255,0.5); border: none; cursor: pointer; transition: background-color 0.3s, transform 0.3s; }
+                .carousel-dot.current-slide { background: white; transform: scale(1.2); }
+            </style>
+
+            <div class="carousel-container">
+                <div class="carousel-slide" data-index="0"><img src="https://images.unsplash.com/photo-1582408921715-18e780636892?q=80&w=1740&auto=format&fit=crop" alt="Paesaggio con pale eoliche"><div class="carousel-caption"><h1>Il Futuro è Verde, Gestiamolo Insieme.</h1><p>Soluzioni innovative per un mondo più pulito.</p></div></div>
+                <div class="carousel-slide" data-index="1"><img src="https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?q=80&w=1740&auto=format&fit=crop" alt="Mani che tengono una piantina"><div class="carousel-caption"><h1>Dalla Raccolta al Riciclo Completo.</h1><p>Valorizziamo ogni risorsa, per un'economia circolare.</p></div></div>
+                <div class="carousel-slide" data-index="2"><img src="https://images.unsplash.com/photo-1466611653911-95081537e5b7?q=80&w=1740&auto=format&fit=crop" alt="Foresta rigogliosa vista dall'alto"><div class="carousel-caption"><h1>Tecnologia al Servizio dell'Ambiente.</h1><p>Innoviamo per ridurre l'impatto ambientale.</p></div></div>
+            </div>
+            
+            <button class="carousel-button prev">❮</button>
+            <button class="carousel-button next">❯</button>
+            <div class="carousel-nav"></div>
+            <script>
+                const container=document.querySelector(".carousel-container"),slides=Array.from(container.children).filter(t=>t.classList.contains("carousel-slide")),nextButton=document.querySelector(".carousel-button.next"),prevButton=document.querySelector(".carousel-button.prev"),nav=document.querySelector(".carousel-nav");slides.forEach((t,e)=>{const o=document.createElement("button");o.classList.add("carousel-dot"),0===e&&o.classList.add("current-slide"),o.addEventListener("click",()=>{container.scrollTo({left:slides[e].offsetLeft,behavior:"smooth"})}),nav.appendChild(o)});const dots=Array.from(nav.children);nextButton.addEventListener("click",()=>{const t=container.scrollWidth,e=container.scrollLeft,o=container.clientWidth;e+o>=t?container.scrollTo({left:0,behavior:"smooth"}):container.scrollBy({left:o,behavior:"smooth"})}),prevButton.addEventListener("click",()=>{container.scrollBy({left:-container.clientWidth,behavior:"smooth"})});const observer=new IntersectionObserver(t=>{t.forEach(t=>{if(t.isIntersecting){const e=t.target.dataset.index;dots.forEach(t=>t.classList.remove("current-slide")),dots[e].classList.add("current-slide")}})},{threshold:.5});slides.forEach(t=>observer.observe(t)),setInterval(()=>{nextButton.click()},5e3);
+            </script>
+        </section>
+
+        <section id="company-story-section">
+            <style>
+                #company-story-section { padding: 80px 20px; background-color: #ffffff; }
+                .story-container { max-width: 1100px; margin: 0 auto; text-align: left; }
+                .story-container h2 { text-align: center; font-size: 2.5rem; margin-bottom: 40px; }
+                .story-content { display: flex; gap: 50px; align-items: center; }
+                .story-column { flex: 1; }
+                .story-text p { font-size: 1.1rem; line-height: 1.7; color: #555; margin-bottom: 20px; }
+                .story-image img { width: 100%; height: auto; border-radius: 10px; box-shadow: 0 8px 16px rgba(0,0,0,0.1); }
+                @media(max-width: 768px) { .story-content { flex-direction: column; } }
+            </style>
+            <div class="story-container">
+                <h2>La Nostra Storia</h2>
+                <div class="story-content">
+                    <div class="story-column story-text">
+                        <p><strong>Fondata nel 2005</strong> da un piccolo gruppo di pionieri dell'ecologia, Riposto è nata da una semplice ma potente visione: trasformare il concetto di rifiuto in risorsa. Abbiamo iniziato con un solo camion e un grande sogno, servendo la nostra comunità locale con passione e dedizione.</p>
+                        <p>Negli anni, la nostra azienda è cresciuta, adottando tecnologie all'avanguardia per il trattamento e il riciclo dei materiali. Oggi, siamo un punto di riferimento nel settore della gestione ambientale, con un team di esperti che lavora ogni giorno per promuovere un futuro più sostenibile per le prossime generazioni.</p>
+                        <p>La nostra missione rimane la stessa: innovare, educare e agire per proteggere il nostro pianeta, un rifiuto alla volta.</p>
+                    </div>
+                    <div class="story-column story-image">
+                        <img src="https://images.unsplash.com/photo-1542601906-82381a176868?q=80&w=1740&auto=format&fit=crop" alt="Gruppo di persone che lavorano per l'ambiente">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+                <!-- ======================= Sezione Compostaggio Domestico ======================= -->
+        <section id="composting-section">
+            <!-- CSS per la sezione Compostaggio -->
+            <style>
+                #composting-section {
+                    padding: 80px 20px;
+                    background-color: #f9f9f9; /* Sfondo leggermente diverso per staccare */
+                }
+                .compost-container {
+                    max-width: 1100px;
+                    margin: 0 auto;
+                    text-align: left;
+                }
+                .compost-container h2 {
+                    text-align: center;
+                    font-size: 2.5rem;
+                    margin-bottom: 20px;
+                }
+                .compost-intro {
+                    text-align: center;
+                    font-size: 1.1rem;
+                    color: #555;
+                    max-width: 800px;
+                    margin: 0 auto 50px auto;
+                }
+                
+                /* Layout per le liste "Cosa Sì" e "Cosa No" */
+                .compost-lists {
+                    display: flex;
+                    gap: 40px;
+                    margin-bottom: 60px;
+                }
+                .compost-column {
+                    flex: 1;
+                    background-color: #fff;
+                    padding: 30px;
+                    border-radius: 8px;
+                    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+                }
+                .compost-column h3 {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    font-size: 1.5rem;
+                    margin-bottom: 20px;
+                }
+                .compost-column ul {
+                    list-style: none;
+                    padding: 0;
+                }
+                .compost-column li {
+                    display: flex;
+                    align-items: center;
+                    gap: 15px;
+                    margin-bottom: 12px;
+                    font-size: 1.05rem;
+                    color: #333;
+                }
+                .compost-column li svg {
+                    width: 24px;
+                    height: 24px;
+                    flex-shrink: 0;
+                }
+
+                /* Colori specifici per le colonne */
+                .compost-yes h3, .compost-yes svg {
+                    color: #4CAF50;
+                }
+                .compost-no h3, .compost-no svg {
+                    color: #d32f2f; /* Un rosso per indicare il divieto */
+                }
+
+                /* Guida passo-passo */
+                .instructions-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                    gap: 30px;
+                }
+                .instruction-card {
+                    background-color: #fff;
+                    padding: 25px;
+                    border-radius: 8px;
+                    border-top: 4px solid #4CAF50;
+                    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+                }
+                .instruction-card h4 {
+                    font-size: 1.2rem;
+                    margin-bottom: 10px;
+                    color: #2F4F4F;
+                }
+                .instruction-card p {
+                    font-size: 1rem;
+                    line-height: 1.6;
+                    color: #555;
+                }
+
+                @media(max-width: 768px) {
+                    .compost-lists {
+                        flex-direction: column;
+                    }
+                }
+            </style>
+
+            <!-- Struttura HTML della sezione Compostaggio -->
+            <div class="compost-container">
+                <h2>Il Compostaggio Domestico</h2>
+                <p class="compost-intro">
+                    Trasforma i tuoi scarti di cucina e giardino nel cuore verde della tua casa. Il compostaggio è un ciclo virtuoso che riduce i rifiuti e crea un potentissimo fertilizzante naturale per le tue piante.
+                </p>
+
+                <div class="compost-lists">
+                    <!-- Colonna COSA SÌ -->
+                    <div class="compost-column compost-yes">
+                        <h3>
+                            <svg fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                            Cosa Inserire
+                        </h3>
+                        <ul>
+                            <li>Scarti di frutta e verdura</li>
+                            <li>Fondi di caffè e filtri di tè</li>
+                            <li>Gusci d'uovo frantumati</li>
+                            <li>Foglie secche, erba e rametti</li>
+                            <li>Carta e cartone non trattati (a pezzi)</li>
+                            <li>Segatura (da legno non trattato)</li>
+                        </ul>
+                    </div>
+
+                    <!-- Colonna COSA NO -->
+                    <div class="compost-column compost-no">
+                        <h3>
+                            <svg fill="currentColor" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+                            Cosa Evitare
+                        </h3>
+                        <ul>
+                            <li>Carne, pesce e ossa</li>
+                            <li>Latticini, formaggi e grassi</li>
+                            <li>Avanzi di cibi cotti e conditi</li>
+                            <li>Feci di animali domestici</li>
+                            <li>Piante malate o infestanti</li>
+                            <li>Materiali non biodegradabili</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>Guida Pratica per la Tua Compostiera</h3>
+                <div class="instructions-grid">
+                    <div class="instruction-card">
+                        <h4>1. Crea la Base</h4>
+                        <p>Inizia con uno strato di 10-15 cm di materiali secchi e legnosi (rametti, foglie secche) sul fondo per garantire un buon drenaggio e aereazione.</p>
+                    </div>
+                    <div class="instruction-card">
+                        <h4>2. Alterna gli Strati</h4>
+                        <p>Aggiungi i tuoi scarti alternando strati di "umido" (scarti di cucina) con strati di "secco" (foglie, paglia, cartone). Questo bilancia azoto e carbonio.</p>
+                    </div>
+                    <div class="instruction-card">
+                        <h4>3. Controlla l'Umidità</h4>
+                        <p>Il compost deve essere umido come una spugna strizzata. Se è troppo secco, bagnalo con un po' d'acqua; se è troppo bagnato, aggiungi materiale secco.</p>
+                    </div>
+                    <div class="instruction-card">
+                        <h4>4. Arieggia Regolarmente</h4>
+                        <p>Una volta a settimana, o ogni due, mescola il cumulo con un forcone o un arieggiatore. L'ossigeno è fondamentale per accelerare il processo.</p>
+                    </div>
+                </div>
+            </div>
+
+            
+        </section>
+
+                <!-- ======================= Sezione Mercatini ed Eventi ======================= -->
+        <section id="events-section">
+            <!-- CSS per la sezione Eventi -->
+            <style>
+                #events-section {
+                    padding: 80px 20px;
+                    background-color: #ffffff; /* Sfondo bianco per alternare */
+                }
+                .events-container {
+                    max-width: 1100px;
+                    margin: 0 auto;
+                }
+                .events-container h2 {
+                    text-align: center;
+                    font-size: 2.5rem;
+                    margin-bottom: 20px;
+                }
+                .events-intro {
+                    text-align: center;
+                    font-size: 1.1rem;
+                    color: #555;
+                    max-width: 800px;
+                    margin: 0 auto 50px auto;
+                }
+                
+                /* Griglia per le carte evento */
+                .events-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+                    gap: 30px;
+                }
+                
+                .event-card {
+                    background-color: #f9f9f9;
+                    border-radius: 8px;
+                    overflow: hidden;
+                    box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+                    display: flex;
+                    flex-direction: column;
+                    transition: transform 0.3s ease, box-shadow 0.3s ease;
+                }
+                .event-card:hover {
+                    transform: translateY(-5px);
+                    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+                }
+
+                .event-card-content {
+                    padding: 25px;
+                }
+                
+                .event-card h3 {
+                    font-size: 1.4rem;
+                    color: #2F4F4F;
+                    margin-bottom: 15px;
+                }
+                
+                .event-details-list {
+                    list-style: none;
+                    padding: 0;
+                    margin-bottom: 15px;
+                }
+                .event-details-list li {
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+                    margin-bottom: 10px;
+                    color: #333;
+                }
+                .event-details-list svg {
+                    width: 20px;
+                    height: 20px;
+                    color: #4CAF50;
+                    flex-shrink: 0;
+                }
+
+                .event-description {
+                    font-size: 1rem;
+                    line-height: 1.6;
+                    color: #555;
+                    margin-top: auto; /* Spinge la descrizione in alto */
+                }
+
+                .event-button-container {
+                    padding: 0 25px 25px 25px;
+                    margin-top: 20px;
+                }
+                
+                .event-button {
+                    display: inline-block;
+                    width: 100%;
+                    text-align: center;
+                    background-color: #4CAF50;
+                    color: white;
+                    padding: 12px 20px;
+                    text-decoration: none;
+                    border-radius: 5px;
+                    font-weight: bold;
+                    transition: background-color 0.3s ease;
+                }
+                .event-button:hover {
+                    background-color: #43a047;
+                }
+            </style>
+
+            <!-- Struttura HTML della sezione Eventi -->
+            <div class="events-container">
+                <h2>Dai Nuova Vita agli Oggetti</h2>
+                <p class="events-intro">
+                    Partecipa ai nostri mercatini e swap party! Sono occasioni perfette per scambiare, vendere o donare oggetti che non usi più, riducendo gli sprechi e rafforzando la nostra comunità.
+                </p>
+
+                <div class="events-grid">
+                    <!-- Evento 1 -->
+                    <div class="event-card">
+                        <div class="event-card-content">
+                            <h3>Mercatino del Riuso di Quartiere</h3>
+                            <ul class="event-details-list">
+                                <li><svg fill="currentColor" viewBox="0 0 24 24"><path d="M19,19H5V8H19M16,1V3H8V1H6V3H5C3.89,3 3,3.89 3,5V19C3,20.1 3.9,21 5,21H19C20.1,21 21,20.1 21,19V5C21,3.89 20.1,3 19,3H18V1M17,12H12V17H17V12Z"/></svg> <span>Domenica, 15 Settembre 2025</span></li>
+                                <li><svg fill="currentColor" viewBox="0 0 24 24"><path d="M12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12.5,7V12.25L17,14.92L16.25,16.15L11,13V7H12.5Z"/></svg> <span>Dalle 9:00 alle 18:00</span></li>
+                                <li><svg fill="currentColor" viewBox="0 0 24 24"><path d="M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9A7,7 0 0,0 12,2Z"/></svg> <span>Piazza della Comunità, Milano</span></li>
+                            </ul>
+                            <p class="event-description">Il classico appuntamento mensile per vendere, comprare e scambiare oggetti usati di ogni tipo. Porta i tuoi tesori nascosti!</p>
+                        </div>
+                        <div class="event-button-container">
+                            <a href="#" class="event-button">Scopri di più</a>
+                        </div>
+                    </div>
+
+                    <!-- Evento 2 -->
+                    <div class="event-card">
+                        <div class="event-card-content">
+                            <h3>Swap Party di Primavera</h3>
+                            <ul class="event-details-list">
+                                <li><svg fill="currentColor" viewBox="0 0 24 24"><path d="M19,19H5V8H19M16,1V3H8V1H6V3H5C3.89,3 3,3.89 3,5V19C3,20.1 3.9,21 5,21H19C20.1,21 21,20.1 21,19V5C21,3.89 20.1,3 19,3H18V1M17,12H12V17H17V12Z"/></svg> <span>Sabato, 21 Settembre 2025</span></li>
+                                <li><svg fill="currentColor" viewBox="0 0 24 24"><path d="M12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12.5,7V12.25L17,14.92L16.25,16.15L11,13V7H12.5Z"/></svg> <span>Dalle 15:00 alle 19:00</span></li>
+                                <li><svg fill="currentColor" viewBox="0 0 24 24"><path d="M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9A7,7 0 0,0 12,2Z"/></svg> <span>Parco Nord, Area Eventi</span></li>
+                            </ul>
+                            <p class="event-description">Rinnova il tuo guardaroba a costo zero! Porta i vestiti che non metti più e scambiali con quelli degli altri partecipanti.</p>
+                        </div>
+                        <div class="event-button-container">
+                            <a href="#" class="event-button">Partecipa all'evento</a>
+                        </div>
+                    </div>
+
+                    <!-- Evento 3 -->
+                    <div class="event-card">
+                        <div class="event-card-content">
+                            <h3>Baratto di Libri e Fumetti</h3>
+                            <ul class="event-details-list">
+                                <li><svg fill="currentColor" viewBox="0 0 24 24"><path d="M19,19H5V8H19M16,1V3H8V1H6V3H5C3.89,3 3,3.89 3,5V19C3,20.1 3.9,21 5,21H19C20.1,21 21,20.1 21,19V5C21,3.89 20.1,3 19,3H18V1M17,12H12V17H17V12Z"/></svg> <span>Sabato, 5 Ottobre 2025</span></li>
+                                <li><svg fill="currentColor" viewBox="0 0 24 24"><path d="M12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12.5,7V12.25L17,14.92L16.25,16.15L11,13V7H12.5Z"/></svg> <span>Tutto il giorno</span></li>
+                                <li><svg fill="currentColor" viewBox="0 0 24 24"><path d="M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9A7,7 0 0,0 12,2Z"/></svg> <span>Biblioteca Comunale</span></li>
+                            </ul>
+                            <p class="event-description">Libera spazio sugli scaffali e trova nuove storie da leggere. Un evento dedicato agli amanti della lettura di ogni età.</p>
+                        </div>
+                        <div class="event-button-container">
+                            <a href="#" class="event-button">Vedi dettagli</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ======================= Sezione Footer ======================= -->
+    <section id="footer-section">
+        <style>
+            #footer-section { background-color: #2F4F4F; color: #ccc; padding: 40px 20px; font-family: Arial, sans-serif; }
+            .footer-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 30px; }
+            .footer-left { display: flex; flex-direction: column; gap: 25px; }
+            .contact-number { text-align: left; }
+            .contact-number .contact-label { font-size: 0.8rem; color: #999; text-transform: uppercase; display: flex; align-items: center; gap: 8px; }
+            .contact-number .contact-label svg { width: 16px; height: 16px; }
+            .contact-number a { color: #4CAF50; text-decoration: none; font-weight: bold; font-size: 1.8rem; display: block; transition: color 0.3s ease; }
+            .contact-number a:hover { color: #66BB6A; }
+            .social-links { display: flex; gap: 15px; }
+            .social-links a { color: #ccc; transition: color 0.3s ease; }
+            .social-links a:hover { color: #fff; }
+            .social-links svg { width: 28px; height: 28px; }
+            .footer-right { text-align: right; }
+            .store-buttons { display: flex; gap: 15px; flex-wrap: wrap; justify-content: flex-end; }
+            .store-button { display: flex; align-items: center; background-color: #000; color: #fff; padding: 10px 15px; border-radius: 8px; text-decoration: none; border: 1px solid #333; transition: all 0.3s ease; }
+            .store-button:hover { background-color: #333; transform: translateY(-2px); }
+            .store-button svg { width: 24px; height: 24px; margin-right: 12px; }
+            .store-button .button-text { display: flex; flex-direction: column; text-align: left; line-height: 1.2; }
+            .store-button .button-text span:first-child { font-size: 0.75rem; opacity: 0.8; }
+            .store-button .button-text span:last-child { font-size: 1rem; font-weight: bold; }
+            .footer-legal { max-width: 1200px; margin: 40px auto 0 auto; padding-top: 20px; border-top: 1px solid #4a4a4a; text-align: center; font-size: 0.85rem; color: #999; }
+            .footer-legal p { margin: 5px 0; }
+            .footer-legal .legal-links { margin-top: 10px; }
+            .footer-legal .legal-links a { color: #aaa; text-decoration: none; margin: 0 10px; transition: color 0.3s ease; }
+            .footer-legal .legal-links a:hover { color: #fff; }
+            @media(max-width: 768px) {
+                .footer-container { flex-direction: column; align-items: center; text-align: center; }
+                .footer-left, .footer-right { text-align: center; width: 100%; align-items: center; }
+                .social-links, .store-buttons, .contact-number { justify-content: center; }
+                .contact-number, .contact-number .contact-label { text-align: center; }
+            }
+        </style>
+        <footer class="footer-container">
+            <div class="footer-left">
+                <div class="contact-number"><span class="contact-label"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M6.62,10.79C8.06,13.62 10.38,15.94 13.21,17.38L15.41,15.18C15.69,14.9 16.08,14.82 16.43,14.93C17.55,15.3 18.75,15.5 20,15.5A1,1 0 0,1 21,16.5V20A1,1 0 0,1 20,21A17,17 0 0,1 3,4A1,1 0 0,1 4,3H7.5A1,1 0 0,1 8.5,4C8.5,5.25 8.7,6.45 9.07,7.57C9.18,7.92 9.1,8.31 8.82,8.59L6.62,10.79Z"/></svg>SERVIZIO CLIENTI</span><a href="tel:800123456">800 123 456</a></div>
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v2.385z"/></svg></a>
+                    <a href="#" aria-label="Twitter"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616v.064c0 2.296 1.634 4.208 3.791 4.649-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg></a>
+                    <a href="#" aria-label="Instagram"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.012 3.584-.07 4.85c-.148 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.85s.012-3.584.07-4.85c.149-3.225 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.85-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.947s-.014-3.667-.072-4.947c-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.791-4-4s1.791-4 4-4 4 1.791 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+                </div>
+            </div>
+            <div class="footer-right">
+                <div class="store-buttons">
+                    <a href="#" class="store-button"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg><span class="button-text"><span>Download on the</span><span>App Store</span></span></a>
+                    <a href="#" class="store-button"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.6 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.53,12.9 20.18,13.18L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z"/></svg><span class="button-text"><span>GET IT ON</span><span>Google Play</span></span></a>
+                </div>
+            </div>
+        </footer>
+        <div class="footer-legal">
+            <p>© 2025 Riposto S.r.l. — Tutti i diritti riservati.</p>
+            <p>Sede Legale: Via dell'Ecologia, 1 - 20100 Milano, Italia — P.IVA: IT12345678901</p>
+            <div class="legal-links">
+                <a href="#">Privacy Policy</a>
+                <span>•</span>
+                <a href="#">Termini di Servizio</a>
+            </div>
+        </div>
+        <script>
+            document.querySelectorAll('.store-button').forEach(t=>{t.addEventListener("click",t=>{t.preventDefault(),alert("Reindirizzamento allo store in corso...")})});
+        </script>
+    </section>
+
+
+
+</body>
+</html>
